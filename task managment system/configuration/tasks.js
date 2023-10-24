@@ -4,7 +4,8 @@ const taskmanagment = require('./db')
 async function getALLtasks(req,res){
 
        const tasks = await taskmanagment.find({})
-       res.status(200).json(tasks)
+      res.status(200).json(tasks)
+       
 
 }
 

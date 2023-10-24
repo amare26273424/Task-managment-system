@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
 const taskmanagment = require('./configuration/db')
 const  {
     getALLtasks,
@@ -11,9 +12,12 @@ const  {
   
 
 // middlleware
+      
+      app.use(bodyParser.urlencoded({ extended: false }));
+      app.use(bodyParser.json());
 
-      app.use(express.json())
       app.use(express.static('public'))
+     
 
       // routes
 
@@ -28,6 +32,6 @@ app.delete('tasks/:id',deleteOnetask)
 
 
 
-app.listen(6000, () =>
-console.log(`Server is listening on port 6000...`)
+app.listen(5000, () =>
+console.log(`Server is listening on port 5000...`)
 );

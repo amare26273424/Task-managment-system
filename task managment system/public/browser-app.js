@@ -3,19 +3,21 @@ const loadingDOM = document.querySelector('.loading-text')
 const formDOM = document.querySelector('.task-form')
 const taskInputDOM = document.querySelector('.task-input')
 const formAlertDOM = document.querySelector('.form-alert')
+const Deletbtn =  document.querySelector('.delete-btn')
 // Load tasks from /api/tasks
 const showTasks = async () => {
   loadingDOM.style.visibility = 'visible'
   try {
-    const {
-      data: { tasks },
-    } = await axios.get('/tasks')
-    if (tasks.length < 1) {
+    const response = await axios.get('/tasks');
+    const task = response.data;
+
+    if (task.length < 1) {
       tasksDOM.innerHTML = '<h5 class="empty-list">No tasks in your list</h5>'
       loadingDOM.style.visibility = 'hidden'
       return
     }
-    const allTasks = tasks
+    
+    const allTasks = task
       .map((task) => {
         const { completed, _id: taskID, name } = task
         return `<div class="single-task ${completed && 'task-completed'}">
@@ -39,7 +41,7 @@ const showTasks = async () => {
     tasksDOM.innerHTML = allTasks
   } catch (error) {
     tasksDOM.innerHTML =
-      '<h5 class="empty-list">There was an error, please try later....</h5>'
+      `<h5 class="empty-list">${error}</h5>`
   }
   loadingDOM.style.visibility = 'hidden' 
 }
@@ -48,19 +50,24 @@ showTasks()
 
 // delete task /api/tasks/:id
 
-tasksDOM.addEventListener('click', async (e) => {
-  const el = e.target
-  if (el.parentElement.classList.contains('delete-btn')) {
-    loadingDOM.style.visibility = 'visible'
-    const id = el.parentElement.dataset.id
-    try {
+Deletbtn.addEventListener('click', async (e) => {
+ 
+ 
+  try {
+
+     const el = e.target
+     loadingDOM.style.visibility = 'visible'
+     const id = el.dataset.id
+   
       await axios.delete(`tasks/${id}`)
       showTasks()
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error)
     }
-  }
-  loadingDOM.style.visibility = 'hidden'
+  
+
+   loadingDOM.style.visibility = 'hidden'
 })
 
 // form
