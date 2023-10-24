@@ -33,7 +33,7 @@ async function getOnetask(req,res){
 
 async function deleteOnetask(req,res){
     const id =  await req.params.id
-    console.log(id)
+    
     const task = await taskmanagment.findOneAndDelete({_id:id})
     
     if(task){
