@@ -10,14 +10,16 @@ let tempName
 
 const showTask = async () => {
   try {
-    const {
-      data: { task },
-    } = await axios.get(`tasks/${id}`)
-    const { _id: taskID, completed, name } = task
+    const response = await axios.get(`tasks/${id}`)
+    const task = await response.data
 
-    taskIDDOM.textContent = taskID
+    const taskID = await task._id
+    const completed = await task.completed
+    const name = await task.name
+
+     taskIDDOM.textContent =taskID
     taskNameDOM.value = name
-    tempName = name
+    tempName = name 
     if (completed) {
       taskCompletedDOM.checked = true
     }
@@ -28,6 +30,7 @@ const showTask = async () => {
 
 showTask()
 
+
 editFormDOM.addEventListener('submit', async (e) => {
   editBtnDOM.textContent = 'Loading...'
   e.preventDefault()
@@ -35,14 +38,16 @@ editFormDOM.addEventListener('submit', async (e) => {
     const taskName = taskNameDOM.value
     const taskCompleted = taskCompletedDOM.checked
 
-    const {
-      data: { task },
-    } = await axios.patch(`tasks/${id}`, {
+   const response = await axios.patch(`tasks/${id}`, {
       name: taskName,
       completed: taskCompleted,
     })
 
-    const { _id: taskID, completed, name } = task
+    const task =await response.data
+
+    const taskID =  task._id
+    const completed =  task.completed
+    const name =  task.name
 
     taskIDDOM.textContent = taskID
     taskNameDOM.value = name
@@ -57,7 +62,7 @@ editFormDOM.addEventListener('submit', async (e) => {
     console.error(error)
     taskNameDOM.value = tempName
     formAlertDOM.style.display = 'block'
-    formAlertDOM.innerHTML = `error, please try again`
+    formAlertDOM.innerHTML = `${error}`
   }
   editBtnDOM.textContent = 'Edit'
   setTimeout(() => {
