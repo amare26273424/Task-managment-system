@@ -3,7 +3,7 @@ const loadingDOM = document.querySelector('.loading-text')
 const formDOM = document.querySelector('.task-form')
 const taskInputDOM = document.querySelector('.task-input')
 const formAlertDOM = document.querySelector('.form-alert')
-const Deletbtn =  document.querySelector('.delete-btn')
+
 // Load tasks from /api/tasks
 const showTasks = async () => {
   loadingDOM.style.visibility = 'visible'
@@ -48,28 +48,23 @@ const showTasks = async () => {
 
 showTasks()
 
+
 // delete task /api/tasks/:id
 
-Deletbtn.addEventListener('click', async (e) => {
- 
- 
-  try {
-
-     const el = e.target
-     loadingDOM.style.visibility = 'visible'
-     const id = el.dataset.id
-   
-      await axios.delete(`tasks/${id}`)
+tasksDOM.addEventListener('click', async (e) => {
+  const el = e.target
+  if (el.parentElement.classList.contains('delete-btn')) {
+    loadingDOM.style.visibility = 'visible'
+    const id = el.parentElement.dataset.id
+    try {
+      await axios.delete(`/tasks/${id}`)
       showTasks()
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error)
     }
-  
-
-   loadingDOM.style.visibility = 'hidden'
+  }
+  loadingDOM.style.visibility = 'hidden'
 })
-
 // form
 
 formDOM.addEventListener('submit', async (e) => {

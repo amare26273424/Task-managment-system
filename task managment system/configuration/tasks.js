@@ -17,7 +17,8 @@ async function createTasks(req,res){
 }
 
 async function getOnetask(req,res){
-    const id = req.params.id
+    const id = await req.params.id
+   
     const task = await taskmanagment.findOne({_id:id})
     
     if(task){
@@ -32,6 +33,7 @@ async function getOnetask(req,res){
 
 async function deleteOnetask(req,res){
     const id =  await req.params.id
+    console.log(id)
     const task = await taskmanagment.findOneAndDelete({_id:id})
     
     if(task){

@@ -22,10 +22,10 @@ const  {
       // routes
 
 app.get('/tasks',getALLtasks)
-app.get('tasks/:id',getOnetask)
+app.get('/tasks/:id',getOnetask)
 app.post('/tasks',createTasks)
-app.patch('tasks/:id',updateOnetask)
-app.delete('tasks/:id',deleteOnetask)
+app.patch('/tasks/:id',updateOnetask)
+app.delete('/tasks/:id',deleteOnetask)
 
 
 
